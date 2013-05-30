@@ -22,6 +22,6 @@ class Problem2 {
     }
 
     public static void main(String[] args) {
-        System.out.println( net.kibotu.projecteuler.utils.EulerUtils.getFibonacciBigInteger(300) );
+        System.out.println(net.kibotu.projecteuler.utils.EulerUtils.getFibonacciBigInteger(300));
     }
 }
