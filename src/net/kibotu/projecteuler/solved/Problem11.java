@@ -11,57 +11,124 @@ public class Problem11 {
 
     }
 
+    final static PrintWriter cout = new PrintWriter(System.out, true);
+
     public static void main(String[] args) throws FileNotFoundException {
 
-        Scanner fin = new Scanner(new BufferedReader(new FileReader(
-                "./src/files/problem11.txt")));
+        final Scanner fin = new Scanner(new BufferedReader(new FileReader("assets/files/problem11.txt")));
 
-        PrintWriter cout = new PrintWriter(System.out, true);
 
-        Double[][] data = new Double[20][20];
+        final int size = 20;
+        final int[][] data = new int[size][size];
 
-        double max = 0;
-        Double[] tempSum = new Double[20];
+        int max = 0;
 
         while (fin.hasNextLine()) {
 
-            for (int i = 0; i < 20; i++) {
-                for (int j = 0; j < 20; j++) {
-                    data[i][j] = fin.nextDouble();
+            for (int x = 0; x < size; x++) {
+                for (int y = 0; y < size; y++) {
+                    data[x][y] = fin.nextInt();
+//                    cout.print(data[x][y] + " ");
                 }
+//                cout.println();
             }
         }
 
-        // Matrix matrix = new Matrix(data);
-
-        // matrix.show();
 
         // up
-        for (int i = 0; i < 17; i++) {
-            for (int j = 0; j < 17; j++) {
+        int y = 0;
+        for (int x = 0; x < size; x++) {
+            for (y = 0; y < size; y++) {
 
-                tempSum[i] = data[i][j].doubleValue() * data[i + 1][j + 1].doubleValue() *
-                        data[i + 2][j + 2].doubleValue() * data[i + 3][j + 3].doubleValue();
+                // right
+                max = Math.max(max, getProduct(getHorizontalAdjacent(data, x, y)));
+
+                // down
+                max = Math.max(max, getProduct(getVerticalAdjacent(data, x, y)));
+
+                // diagonal right
+                max = Math.max(max, getProduct(getDiagonalRightAdjacent(data, x, y)));
+
+                // diagonal left
+                max = Math.max(max, getProduct(getDiagonalLeftAdjacent(data, x, y)));
             }
-        }
 
-        for (int i = 0; i < 16; i++) {
-            max = ((tempSum[i].doubleValue() > tempSum[i + 1].doubleValue()) ? tempSum[i].doubleValue() : tempSum[i + 1].doubleValue());
+//            cout.println();
         }
 
         cout.println(max);
-        cout.println(99 * 99 * 99 * 99);
-
-        // down
-
-        // left
-
-        // right
-
-        // diagonally
+//        cout.println(99 * 99 * 99 * 99);
     }
 
-    public static int getMax(int a, int b) {
-        return (a > b) ? a : b;
+    private static int getProduct(int... v) {
+        int ret = 1;
+        for(int i : v) {
+            ret *= i;
+        }
+        return ret;
+    }
+
+    public static int[] getHorizontalAdjacent(final int[][] data, final int x, final int y) {
+        int[] ret = new int[]{0, 0, 0, 0};
+
+        if (y >= 0 && y < data.length - 3) {
+
+            ret[0] = data[x][y];
+            ret[1] = data[x][y + 1];
+            ret[2] = data[x][y + 2];
+            ret[3] = data[x][y + 3];
+
+//            cout.println(ret[0] + " " + ret[1] + " " + ret[2] + " " + ret[3] + " ");
+        }
+
+        return ret;
+    }
+
+    public static int[] getVerticalAdjacent(final int[][] data, final int x, final int y) {
+        int[] ret = new int[]{0, 0, 0, 0};
+
+        if (x >= 0 && x < data.length - 3) {
+
+            ret[0] = data[x][y];
+            ret[1] = data[x + 1][y];
+            ret[2] = data[x + 2][y];
+            ret[3] = data[x + 3][y];
+
+//            cout.println(ret[0] + " " + ret[1] + " " + ret[2] + " " + ret[3] + " ");
+        }
+
+        return ret;
+    }
+
+    private static int [] getDiagonalRightAdjacent(int[][] data, int x, int y) {
+        int[] ret = new int[]{0, 0, 0, 0};
+
+        if (x >= 0 && x < data.length - 3 && y >= 0 && y < data.length - 3) {
+
+            ret[0] = data[x][y];
+            ret[1] = data[x + 1][y + 1];
+            ret[2] = data[x + 2][y + 2];
+            ret[3] = data[x + 3][y + 3];
+
+//            cout.println(ret[0] + " " + ret[1] + " " + ret[2] + " " + ret[3] + " ");
+        }
+
+        return ret;
+    }
+
+    private static int [] getDiagonalLeftAdjacent(int[][] data, int x, int y) {
+        int[] ret = new int[]{0, 0, 0, 0};
+
+        if (x >= 0 && x < data.length - 3 && y >= 3 && y < data.length) {
+
+            ret[0] = data[x][y];
+            ret[1] = data[x + 1][y - 1];
+            ret[2] = data[x + 2][y - 2];
+            ret[3] = data[x + 3][y - 3];
+
+//            cout.println(ret[0] + " " + ret[1] + " " + ret[2] + " " + ret[3] + " ");
+        }
+
+        return ret;
     }
 }

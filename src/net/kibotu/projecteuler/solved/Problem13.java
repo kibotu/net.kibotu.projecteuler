@@ -118,7 +118,9 @@ public class Problem13 {
             for (int j = 0; j < 50; ++j) {
                 digit[j] = DIGIT.charAt(i * 50 + j);
             }
-            sum = sum.add(new BigInteger(String.valueOf(digit)));
+            sum = sum.add(new BigInteger
+
+                    (String.valueOf(digit)));
         }
 
         System.out.println("solution: " + sum.toString().substring(0, 10));
